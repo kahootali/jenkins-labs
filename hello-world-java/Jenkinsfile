@@ -7,12 +7,16 @@ pipeline {
   stages {
 		stage('Build') {
 			steps {
-				sh 'mvn -B -DskipTests clean package'
+				dir('hello-world-java'){
+					sh 'mvn -B -DskipTests clean package'
+				}
 			} 
 		}
     stage('Test') {
 			steps {
-				sh 'java -jar target/hello-world-1.jar'
+				dir('hello-world-java'){
+					sh 'java -jar target/hello-world-1.jar'
+				}
 			} 
 		}
 	}
