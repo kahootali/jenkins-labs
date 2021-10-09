@@ -1,0 +1,18 @@
+def gitUrl = "https://github.com/kahootali/jenkins-labs.git"
+job('test-job') {
+	description "My First DSL Job with GitHub Integration"
+	scm {
+		git { 
+			remote {
+				url(gitUrl)
+			}
+			branch('*/main')
+		}
+	} 
+	triggers {
+		scm('H/5 * * * *')
+	}
+	steps {
+		shell "ls"
+	} 
+}
