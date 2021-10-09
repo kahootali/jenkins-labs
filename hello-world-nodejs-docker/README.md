@@ -1,1 +1,1 @@
-# dice-hello-world-nodejs
+# hello-world-nodejs
