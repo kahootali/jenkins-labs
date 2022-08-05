@@ -33,7 +33,8 @@ pipeline {
 	}
 	post {
 		success {
-			slackSend "Python Job succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+			def msg = "Pipeline passed: ${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
+    		slackSend(color: color, message: msg)
 		}
 	}
 }
