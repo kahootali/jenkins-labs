@@ -3,38 +3,37 @@ pipeline {
   stages {
     stage('Build') {
       agent { 
-				docker { 
-					image 'python:2-alpine' 
-				} 
-		  }
+        docker { 
+          image 'python:2-alpine' 
+        } 
+      }
       steps {
-		  		dir('hello-world-python'){  
-					sh 'python -m py_compile sources/add2vals.py sources/calc.py' 
-				}
-			}
+        dir('hello-world-python'){  
+          sh 'python -m py_compile sources/add2vals.py sources/calc.py' 
+        }
+      }
     }
     stage('Test') {
-			agent { 
-				docker { 
-					image 'qnib/pytest' 
-				} 
-		  }
+      agent { 
+        docker { 
+          image 'qnib/pytest' 
+        } 
+      }
       steps {
-		  		dir('hello-world-python'){  
-					sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-				}
-			}
-			post {
-				success {
-			 		archiveArtifacts 'hello-world-python/test-reports/results.xml'
-				}
-			}
-		}
-	}
-	post {
-		success {
-			def msg = "Pipeline passed: ${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
-    		slackSend(color: color, message: msg)
-		}
-	}
+        dir('hello-world-python'){  
+          sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+        }
+      }
+      post {
+        success {
+          archiveArtifacts 'hello-world-python/test-reports/results.xml'
+        }
+      }
+    }
+  }
+  post {
+    success {
+      slackSend color: "good", message: "Pipeline passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+    }
+  }
 }
