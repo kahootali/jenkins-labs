@@ -21,21 +21,20 @@ pipeline {
 		} 
 	}
     stage('Publish') {
-			steps{
-				script {
-					docker.withRegistry( '', registryCredential ) {
-						sh 'docker push kahootali/test-node-app:latest'
-					} 
-				}
-			} 
-		}
+		steps{
+			script {
+				docker.withRegistry( '', registryCredential ) {
+					sh 'docker push kahootali/test-node-app:latest'
+				} 
+			}
+		} 
 	}
 	stage('Deploy') {
-			steps {
-				dir('hello-world-nodejs-docker'){
-					sh 'docker compose up --build' 
-				}
-			} 
+		steps {
+			dir('hello-world-nodejs-docker'){
+				sh 'docker compose up --build' 
+			}
 		}
 	}
+  }
 }
