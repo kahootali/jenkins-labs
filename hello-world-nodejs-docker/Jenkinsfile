@@ -17,7 +17,7 @@ pipeline {
 				sh 'docker container run --rm -p 8001:8080 --name node -d kahootali/test-node-app' 
 				sh 'sleep 5'
 				sh 'curl -I http://localhost:8001'
-				sh 'docker rm node'
+				sh 'docker rm node -f'
 			}
 		} 
 	}
