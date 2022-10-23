@@ -30,4 +30,12 @@ pipeline {
 			} 
 		}
 	}
+	stage('Deploy') {
+			steps {
+				dir('hello-world-nodejs-docker'){
+					sh 'docker compose up --build' 
+				}
+			} 
+		}
+	}
 }
