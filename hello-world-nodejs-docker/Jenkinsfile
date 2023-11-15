@@ -19,7 +19,7 @@ pipeline {
 			dir('hello-world-nodejs-docker'){
 				sh '''
 					version=$(git rev-parse --short HEAD)
-					docker container run --rm -p 8001:8080 --name node -d kahootali/test-node-app:$version' 
+					docker container run --rm -p 8001:8080 --name node -d kahootali/test-node-app:$version
 				'''
 				sh 'sleep 5'
 				sh 'curl -I http://localhost:8001'
