@@ -7,14 +7,20 @@ pipeline {
     stage('Build') {
 			steps {
 				dir('hello-world-nodejs-docker'){
-					sh 'docker build -t kahootali/test-node-app .'
+					sh'''
+						version=$(git rev-parse --short HEAD)
+						docker build -t kahootali/test-node-app:$version .
+					'''
 				}
 			} 
 		}
     stage('Test') {
       steps {
 			dir('hello-world-nodejs-docker'){
-				sh 'docker container run --rm -p 8001:8080 --name node -d kahootali/test-node-app' 
+				sh '''
+					version=$(git rev-parse --short HEAD)
+					docker container run --rm -p 8001:8080 --name node -d kahootali/test-node-app:$version' 
+				'''
 				sh 'sleep 5'
 				sh 'curl -I http://localhost:8001'
 				sh 'docker rm node -f'
