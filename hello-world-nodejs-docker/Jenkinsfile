@@ -25,7 +25,10 @@ pipeline {
 		steps{
 			script {
 				docker.withRegistry( '', registryCredential ) {
-					sh 'docker push kahootali/test-node-app:latest'
+					sh '''
+						version=$(git rev-parse --short HEAD)
+						docker push kahootali/test-node-app:$version
+					'''
 				} 
 			}
 		} 
